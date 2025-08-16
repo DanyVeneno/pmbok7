@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <title>Guía PMBOK 7ª Edición - Project Managers del Futuro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            animation: {
+              "pulse-slow": "pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
+
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #000;
+        color: #fff;
+        scroll-behavior: smooth;
+        overflow-x: hidden;
+      }
+
+      .fade-in-up {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }
+
+      .fade-in-up.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .gradient-border {
+        position: relative;
+        background: linear-gradient(
+          to right,
+          rgba(6, 182, 212, 0.1),
+          rgba(59, 130, 246, 0.1)
+        );
+      }
+
+      .gradient-border::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: inherit;
+        padding: 1px;
+        background: linear-gradient(
+          45deg,
+          rgba(6, 182, 212, 0.3),
+          rgba(59, 130, 246, 0.3)
+        );
+        -webkit-mask: linear-gradient(#fff 0 0) content-box,
+          linear-gradient(#fff 0 0);
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        pointer-events: none;
+      }
+
+      .section-title {
+        background: linear-gradient(90deg, #06b6d4, #3b82f6);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .gradient-radial {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 0.2;
+        background: radial-gradient(
+          circle at 0px 0px,
+          #06b6d4,
+          transparent 50%
+        );
+      }
+
+      /* Estilos para el menú móvil */
+      .mobile-menu {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 0;
+        background: rgba(0, 0, 0, 0.95);
+        backdrop-filter: blur(20px);
+        overflow: hidden;
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 40;
+        border-bottom: 1px solid rgba(6, 182, 212, 0.3);
+      }
+
+      .mobile-menu.open {
+        height: 100vh;
+      }
+
+      .mobile-menu-content {
+        padding-top: 100px;
+        padding-bottom: 40px;
+        opacity: 0;
+        transform: translateY(-20px);
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
+      }
+
+      .mobile-menu.open .mobile-menu-content {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .mobile-menu-link {
+        display: block;
+        text-align: center;
+        padding: 18px;
+        font-size: 1.5rem;
+        font-weight: 500;
+        color: #9ca3af;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .mobile-menu-link:hover {
+        color: #06b6d4;
+      }
+
+      .mobile-menu-link.active {
+        color: #06b6d4;
+      }
+
+      .mobile-menu-link::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 2px;
+        background: linear-gradient(to right, #06b6d4, #3b82f6);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .mobile-menu-link:hover::after,
+      .mobile-menu-link.active::after {
+        opacity: 1;
+      }
+
+      /* Animación del botón hamburguesa */
+      .hamburger {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 30px;
+        height: 20px;
+        cursor: pointer;
+      }
+
+      .hamburger span {
+        display: block;
+        height: 2px;
+        width: 100%;
+        background: #9ca3af;
+        border-radius: 1px;
+        transition: all 0.3s ease;
+      }
+
+      .hamburger.open span:nth-child(1) {
+        transform: translateY(9px) rotate(45deg);
+      }
+
+      .hamburger.open span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .hamburger.open span:nth-child(3) {
+        transform: translateY(-9px) rotate(-45deg);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Barra de navegación -->
+    <nav
+      class="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-cyan-500/20"
+    >
+      <div class="max-w-7xl mx-auto px-6 py-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-2">
+            <div
+              class="w-3 h-3 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full animate-pulse-slow"
+            ></div>
+            <span
+              class="text-xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent"
+            >
+              PMBOK 7<sup>ª</sup>
+            </span>
+          </div>
+          <div class="hidden md:flex space-x-8">
+            <a
+              href="#home"
+              class="capitalize transition-all duration-300 hover:text-cyan-400 text-cyan-400"
+              >Inicio</a
+            >
+            <a
+              href="#changes"
+              class="capitalize transition-all duration-300 hover:text-cyan-400 text-gray-300"
+              >Cambios</a
+            >
+            <a
+              href="#principles"
+              class="capitalize transition-all duration-300 hover:text-cyan-400 text-gray-300"
+              >Principios</a
+            >
+            <a
+              href="#domains"
+              class="capitalize transition-all duration-300 hover:text-cyan-400 text-gray-300"
+              >Dominios</a
+            >
+            <a
+              href="#example"
+              class="capitalize transition-all duration-300 hover:text-cyan-400 text-gray-300"
+              >Ejemplo</a
+            >
+            <a
+              href="#advantages"
+              class="capitalize transition-all duration-300 hover:text-cyan-400 text-gray-300"
+              >Ventajas</a
+            >
+          </div>
+          <button id="mobile-menu-button" class="md:hidden text-gray-300 p-2">
+            <div class="hamburger">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Menú móvil -->
+    <div id="mobile-menu" class="mobile-menu">
+      <div class="mobile-menu-content">
+        <div class="flex flex-col items-center py-8">
+          <a href="#home" class="mobile-menu-link">Inicio</a>
+          <a href="#changes" class="mobile-menu-link">Cambios</a>
+          <a href="#principles" class="mobile-menu-link">Principios</a>
+          <a href="#domains" class="mobile-menu-link">Dominios</a>
+          <a href="#example" class="mobile-menu-link">Ejemplo</a>
+          <a href="#advantages" class="mobile-menu-link">Ventajas</a>
+        </div>
+        <div class="text-center mt-8">
+          <div
+            class="inline-flex items-center space-x-2 bg-gradient-to-r from-cyan-500/20 to-blue-600/20 px-6 py-3 rounded-full border border-cyan-500/30"
+          >
+            <div
+              class="w-2 h-2 bg-cyan-400 rounded-full animate-pulse-slow"
+            ></div>
+            <span class="text-cyan-400 font-semibold"
+              >Guía PMBOK 7ª Edición</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sección Hero -->
+    <section
+      id="home"
+      class="min-h-screen flex items-center justify-center relative overflow-hidden pt-20"
+    >
+      <div class="gradient-radial"></div>
+      <div class="max-w-7xl mx-auto px-6 text-center relative z-10">
+        <div class="fade-in-up active">
+          <h1
+            class="text-5xl sm:text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent"
+          >
+            PMBOK 7<sup>ª</sup>
+          </h1>
+          <p class="text-xl md:text-3xl mb-8 text-gray-300 leading-relaxed">
+            Guía Rápida para Project Managers del Futuro
+          </p>
+          <div
+            class="flex flex-col md:flex-row items-center justify-center gap-6 mb-12"
+          >
+            <div
+              class="bg-gradient-to-r from-cyan-500/20 to-blue-500/20 p-4 rounded-2xl border border-cyan-500/30 backdrop-blur-sm"
+            >
+              <span class="text-cyan-400 font-semibold">12</span> Principios
+            </div>
+            <div
+              class="bg-gradient-to-r from-purple-500/20 to-pink-500/20 p-4 rounded-2xl border border-purple-500/30 backdrop-blur-sm"
+            >
+              <span class="text-purple-400 font-semibold">8</span> Dominios
+            </div>
+          </div>
+          <a
+            href="#changes"
+            class="inline-block bg-gradient-to-r from-cyan-500 to-blue-600 px-8 py-4 rounded-full text-lg font-semibold hover:shadow-2xl hover:shadow-cyan-500/25 transition-all duration-300 transform hover:scale-105"
+          >
+            Explorar Cambios Clave
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección de Cambios Clave -->
+    <section
+      id="changes"
+      class="py-20 bg-gradient-to-b from-black to-gray-900/50"
+    >
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16 fade-in-up">
+          <h2 class="text-4xl sm:text-5xl font-bold mb-6 section-title">
+            Cambios Clave
+          </h2>
+          <p class="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">
+            Evolución del enfoque tradicional hacia una gestión más adaptable y
+            orientada al valor
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+          <div class="fade-in-up">
+            <div
+              class="bg-gradient-to-br from-red-900/30 to-red-800/20 p-8 rounded-3xl border border-red-500/20 backdrop-blur-sm"
+            >
+              <h3
+                class="text-2xl md:text-3xl font-bold text-red-400 mb-6 flex items-center"
+              >
+                <div class="w-4 h-4 bg-red-400 rounded-full mr-3"></div>
+                6ª Edición
+              </h3>
+              <div class="space-y-4">
+                <div class="flex items-start space-x-3">
+                  <div
+                    class="w-2 h-2 bg-red-400 rounded-full mt-2 flex-shrink-0"
+                  ></div>
+                  <div>
+                    <strong class="text-red-300">49 procesos</strong>
+                    organizados en
+                  </div>
+                </div>
+                <div class="ml-5 space-y-2 text-gray-300">
+                  <p>• 5 grupos de procesos</p>
+                  <p>• 10 áreas de conocimiento</p>
+                </div>
+                <div class="flex items-start space-x-3 mt-4">
+                  <div
+                    class="w-2 h-2 bg-red-400 rounded-full mt-2 flex-shrink-0"
+                  ></div>
+                  <p class="text-gray-300">Enfoque rígido y secuencial</p>
+                </div>
+                <div class="flex items-start space-x-3">
+                  <div
+                    class="w-2 h-2 bg-red-400 rounded-full mt-2 flex-shrink-0"
+                  ></div>
+                  <p class="text-gray-300">
+                    Más adecuado para proyectos tradicionales
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="fade-in-up">
+            <div
+              class="bg-gradient-to-br from-green-900/30 to-emerald-800/20 p-8 rounded-3xl border border-green-500/20 backdrop-blur-sm"
+            >
+              <h3
+                class="text-2xl md:text-3xl font-bold text-green-400 mb-6 flex items-center"
+              >
+                <div class="w-4 h-4 bg-green-400 rounded-full mr-3"></div>
+                7ª Edición
+              </h3>
+              <div class="space-y-4">
+                <div class="flex items-start space-x-3">
+                  <div
+                    class="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"
+                  ></div>
+                  <div>
+                    <strong class="text-green-300">12 principios</strong> y
+                    <strong class="text-green-300">8 dominios</strong>
+                  </div>
+                </div>
+                <div class="flex items-start space-x-3 mt-4">
+                  <div
+                    class="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"
+                  ></div>
+                  <p class="text-gray-300">Enfoque adaptativo y flexible</p>
+                </div>
+                <div class="flex items-start space-x-3">
+                  <div
+                    class="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"
+                  ></div>
+                  <p class="text-gray-300">
+                    Orientado a pensar como Project Manager
+                  </p>
+                </div>
+                <div class="flex items-start space-x-3">
+                  <div
+                    class="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"
+                  ></div>
+                  <p class="text-gray-300">
+                    Compatible con proyectos ágiles, híbridos y tradicionales
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección de Principios -->
+    <section
+      id="principles"
+      class="py-20 bg-gradient-to-b from-gray-900/50 to-black"
+    >
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16 fade-in-up">
+          <h2
+            class="text-4xl sm:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-cyan-500 bg-clip-text text-transparent"
+          >
+            12 Principios
+          </h2>
+          <p class="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">
+            Guías de comportamiento para el Project Manager moderno
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Principio 1 -->
+          <div class="fade-in-up">
+            <div
+              class="bg-gradient-to-br from-blue-500 to-cyan-400 p-6 rounded-2xl text-white shadow-2xl hover:shadow-cyan-500/25 transition-all duration-500 transform hover:scale-105"
+            >
+              <div class="flex items-center mb-4">
+                <div
+                  class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm"
+                >
+                  <span class="text-xl font-bold">1</span>
+                </div>
+              </div>
+              <h3 class="text-xl font-bold mb-3">
+                Ser un profesional diligente y responsable
+              </h3>
+              <p class="text-white/90 text-sm leading-relaxed">
+                Integridad y ética en todas las decisiones
+              </p>
+            </div>
+          </div>
+
+          <!-- Principio 2 -->
+          <div class="fade-in-up">
+            <div
+              class="bg-gradient-to-br from-purple-500 to-pink-400 p-6 rounded-2xl text-white shadow-2xl hover:shadow-cyan-500/25 transition-all duration-500 transform hover:scale-105"
+            >
+              <div class="flex items-center mb-4">
+                <div
+                  class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm"
+                >
+                  <span class="text-xl font-bold">2</span>
+                </div>
+              </div>
+              <h3 class="text-xl font-bold mb-3">
+                Crear un ambiente colaborativo
+              </h3>
+              <p class="text-white/90 text-sm leading-relaxed">
+                Cultura de trabajo en equipo
+              </p>
+            </div>
+          </div>
+
+          <!-- Principio 3 -->
+          <div class="fade-in-up">
+            <div
+              class="bg-gradient-to-br from-green-500 to-teal-400 p-6 rounded-2xl text-white shadow-2xl hover:shadow-cyan-500/25 transition-all duration-500 transform hover:scale-105"
+            >
+              <div class="flex items-center mb-4">
+                <div
+                  class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm"
+                >
+                  <span class="text-xl font-bold">3</span>
+                </div>
+              </div>
+              <h3 class="text-xl font-bold mb-3">
+                Involucrar a los interesados
+              </h3>
+              <p class="text-white/90 text-sm leading-relaxed">
+                Mantener comunicación activa
+              </p>
+            </div>
+          </div>
+
+          <!-- Principio 4 -->
+          <div class="fade-in-up">
+            <div
+              class="bg-gradient-to-br from-orange-500 to-red-400 p-6 rounded-2xl text-white shadow-2xl hover:shadow-cyan-500/25 transition-all duration-500 transform hover:scale-105"
+            >
+              <div class="flex items-center mb-4">
+                <div
+                  class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm"
+                >
+                  <span class="text-xl font-bold">4</span>
+                </div>
+              </div>
+              <h3 class="text-xl font-bold mb-3">Enfocarse en el valor</h3>
+              <p class="text-white/90 text-sm leading-relaxed">
+                Todo debe aportar beneficios al cliente/empresa
+              </p>
+            </div>
+          </div>
+
+          <!-- Principio 5 -->
+          <div class="fade-in-up">
+            <div
+              class="bg-gradient-to-br from-indigo-500 to-purple-400 p-6 rounded-2xl text-white shadow-2xl hover:shadow-cyan-500/25 transition-all duration-500 transform hover:scale-105"
+            >
+              <div class="flex items-center mb-4">
+                <div
+                  class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm"
+                >
+                  <span class="text-xl font-bold">5</span>
+                </div>
+              </div>
+              <h3 class="text-xl font-bold mb-3">Adaptarse al contexto</h3>
+              <p class="text-white/90 text-sm leading-relaxed">
+                Ajustar la gestión según el tipo de proyecto
+              </p>
+            </div>
+          </div>
+
+          <!-- Principio 6 -->
+          <div class="fade-in-up">
+            <div
+              class="bg-gradient-to-br from-pink-500 to-rose-400 p-6 rounded-2xl text-white shadow-2xl hover:shadow-cyan-500/25 transition-all duration-500 transform hover:scale-105"
+            >
+              <div class="flex items-center mb-4">
+                <div
+                  class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm"
+                >
+                  <span class="text-xl font-bold">6</span>
+                </div>
+              </div>
+              <h3 class="text-xl font-bold mb-3">Desarrollar liderazgo</h3>
+              <p class="text-white/90 text-sm leading-relaxed">
+                Inspirar y coordinar al equipo
+              </p>
+            </div>
+          </div>
+
+          <!-- Principio 7 -->
+          <div class="fade-in-up">
+            <div
+              class="bg-gradient-to-br from-cyan-500 to-blue-400 p-6 rounded-2xl text-white shadow-2xl hover:shadow-cyan-500/25 transition-all duration-500 transform hover:scale-105"
+            >
+              <div class="flex items-center mb-4">
+                <div
+                  class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm"
+                >
+                  <span class="text-xl font-bold">7</span>
+                </div>
+              </div>
+              <h3 class="text-xl font-bold mb-3">Adaptarse a la complejidad</h3>
+              <p class="text-white/90 text-sm leading-relaxed">
+                Gestionar proyectos con múltiples variables
+              </p>
+            </div>
+          </div>
+
+          <!-- Principio 8 -->
+          <div class="fade-in-up">
+            <div
+              class="bg-gradient-to-br from-yellow-500 to-orange-400 p-6 rounded-2xl text-white shadow-2xl hover:shadow-cyan-500/25 transition-all duration-500 transform hover:scale-105"
+            >
+              <div class="flex items-center mb-4">
+                <div
+                  class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm"
+                >
+                  <span class="text-xl font-bold">8</span>
+                </div>
+              </div>
+              <h3 class="text-xl font-bold mb-3">
+                Optimizar respuestas al riesgo
+              </h3>
+              <p class="text-white/90 text-sm leading-relaxed">
+                Prevenir antes que corregir
+              </p>
+            </div>
+          </div>
+
+          <!-- Principio 9 -->
+          <div class="fade-in-up">
+            <div
+              class="bg-gradient-to-br from-emerald-500 to-green-400 p-6 rounded-2xl text-white shadow-2xl hover:shadow-cyan-500/25 transition-all duration-500 transform hover:scale-105"
+            >
+              <div class="flex items-center mb-4">
+                <div
+                  class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm"
+                >
+                  <span class="text-xl font-bold">9</span>
+                </div>
+              </div>
+              <h3 class="text-xl font-bold mb-3">
+                Adoptar mentalidad de calidad
+              </h3>
+              <p class="text-white/90 text-sm leading-relaxed">
+                Entregar valor y cumplir estándares
+              </p>
+            </div>
+          </div>
+
+          <!-- Principio 10 -->
+          <div class="fade-in-up">
+            <div
+              class="bg-gradient-to-br from-violet-500 to-indigo-400 p-6 rounded-2xl text-white shadow-2xl hover:shadow-cyan-500/25 transition-all duration-500 transform hover:scale-105"
+            >
+              <div class="flex items-center mb-4">
+                <div
+                  class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm"
+                >
+                  <span class="text-xl font-bold">10</span>
+                </div>
+              </div>
+              <h3 class="text-xl font-bold mb-3">Pensamiento sistémico</h3>
+              <p class="text-white/90 text-sm leading-relaxed">
+                Ver el proyecto como parte de un todo
+              </p>
+            </div>
+          </div>
+
+          <!-- Principio 11 -->
+          <div class="fade-in-up">
+            <div
+              class="bg-gradient-to-br from-rose-500 to-pink-400 p-6 rounded-2xl text-white shadow-2xl hover:shadow-cyan-500/25 transition-all duration-500 transform hover:scale-105"
+            >
+              <div class="flex items-center mb-4">
+                <div
+                  class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm"
+                >
+                  <span class="text-xl font-bold">11</span>
+                </div>
+              </div>
+              <h3 class="text-xl font-bold mb-3">Ser adaptable y resiliente</h3>
+              <p class="text-white/90 text-sm leading-relaxed">
+                Afrontar cambios sin perder rumbo
+              </p>
+            </div>
+          </div>
+
+          <!-- Principio 12 -->
+          <div class="fade-in-up">
+            <div
+              class="bg-gradient-to-br from-sky-500 to-cyan-400 p-6 rounded-2xl text-white shadow-2xl hover:shadow-cyan-500/25 transition-all duration-500 transform hover:scale-105"
+            >
+              <div class="flex items-center mb-4">
+                <div
+                  class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm"
+                >
+                  <span class="text-xl font-bold">12</span>
+                </div>
+              </div>
+              <h3 class="text-xl font-bold mb-3">Mejorar continuamente</h3>
+              <p class="text-white/90 text-sm leading-relaxed">
+                Lecciones aprendidas y retroalimentación
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección de Dominios -->
+    <section
+      id="domains"
+      class="py-20 bg-gradient-to-b from-black to-gray-900/50"
+    >
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16 fade-in-up">
+          <h2
+            class="text-4xl sm:text-5xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent"
+          >
+            8 Dominios de Desempeño
+          </h2>
+          <p class="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">
+            Áreas clave para el éxito del proyecto
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+          <!-- Dominio 1 -->
+          <div class="fade-in-up">
+            <div
+              class="bg-gradient-to-br from-gray-900/80 to-gray-800/60 p-8 rounded-3xl border border-gray-600/30 backdrop-blur-sm hover:border-cyan-500/50 transition-all duration-500"
+            >
+              <div class="flex items-center mb-6">
+                <div
+                  class="w-16 h-16 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-2xl flex items-center justify-center text-2xl mr-4"
+                >
+                  👥
+                </div>
+                <div>
+                  <span class="text-2xl font-bold text-cyan-400">1</span>
+                  <h3 class="text-2xl font-bold text-white">Interesados</h3>
+                </div>
+              </div>
+              <p class="text-gray-300 text-lg leading-relaxed">
+                Identificar, comprender y satisfacer a todas las partes
+                involucradas
+              </p>
+            </div>
+          </div>
+
+          <!-- Dominio 2 -->
+          <div class="fade-in-up">
+            <div
+              class="bg-gradient-to-br from-gray-900/80 to-gray-800/60 p-8 rounded-3xl border border-gray-600/30 backdrop-blur-sm hover:border-cyan-500/50 transition-all duration-500"
+            >
+              <div class="flex items-center mb-6">
+                <div
+                  class="w-16 h-16 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-2xl flex items-center justify-center text-2xl mr-4"
+                >
+                  🤝
+                </div>
+                <div>
+                  <span class="text-2xl font-bold text-cyan-400">2</span>
+                  <h3 class="text-2xl font-bold text-white">Equipo</h3>
+                </div>
+              </div>
+              <p class="text-gray-300 text-lg leading-relaxed">
+                Selección, liderazgo, motivación y coordinación del equipo
+              </p>
+            </div>
+          </div>
+
+          <!-- Dominio 3 -->
+          <div class="fade-in-up">
+            <div
+              class="bg-gradient-to-br from-gray-900/80 to-gray-800/60 p-8 rounded-3xl border border-gray-600/30 backdrop-blur-sm hover:border-cyan-500/50 transition-all duration-500"
+            >
+              <div class="flex items-center mb-6">
+                <div
+                  class="w-16 h-16 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-2xl flex items-center justify-center text-2xl mr-4"
+                >
+                  🔄
+                </div>
+                <div>
+                  <span class="text-2xl font-bold text-cyan-400">3</span>
+                  <h3 class="text-2xl font-bold text-white">
+                    Enfoque y ciclo de vida
+                  </h3>
+                </div>
+              </div>
+              <p class="text-gray-300 text-lg leading-relaxed">
+                Definir si será ágil, tradicional o híbrido
+              </p>
+            </div>
+          </div>
+
+          <!-- Dominio 4 -->
+          <div class="fade-in-up">
+            <div
+              class="bg-gradient-to-br from-gray-900/80 to-gray-800/60 p-8 rounded-3xl border border-gray-600/30 backdrop-blur-sm hover:border-cyan-500/50 transition-all duration-500"
+            >
+              <div class="flex items-center mb-6">
+                <div
+                  class="w-16 h-16 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-2xl flex items-center justify-center text-2xl mr-4"
+                >
+                  📊
+                </div>
+                <div>
+                  <span class="text-2xl font-bold text-cyan-400">4</span>
+                  <h3 class="text-2xl font-bold text-white">Planificación</h3>
+                </div>
+              </div>
+              <p class="text-gray-300 text-lg leading-relaxed">
+                Estrategia, alcances, tiempos, costos y recursos
+              </p>
+            </div>
+          </div>
+
+          <!-- Dominio 5 -->
+          <div class="fade-in-up">
+            <div
+              class="bg-gradient-to-br from-gray-900/80 to-gray-800/60 p-8 rounded-3xl border border-gray-600/30 backdrop-blur-sm hover:border-cyan-500/50 transition-all duration-500"
+            >
+              <div class="flex items-center mb-6">
+                <div
+                  class="w-16 h-16 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-2xl flex items-center justify-center text-2xl mr-4"
+                >
+                  🚀
+                </div>
+                <div>
+                  <span class="text-2xl font-bold text-cyan-400">5</span>
+                  <h3 class="text-2xl font-bold text-white">
+                    Trabajo del proyecto
+                  </h3>
+                </div>
+              </div>
+              <p class="text-gray-300 text-lg leading-relaxed">
+                Ejecución y gestión diaria de las tareas
+              </p>
+            </div>
+          </div>
+
+          <!-- Dominio 6 -->
+          <div class="fade-in-up">
+            <div
+              class="bg-gradient-to-br from-gray-900/80 to-gray-800/60 p-8 rounded-3xl border border-gray-600/30 backdrop-blur-sm hover:border-cyan-500/50 transition-all duration-500"
+            >
+              <div class="flex items-center mb-6">
+                <div
+                  class="w-16 h-16 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-2xl flex items-center justify-center text-2xl mr-4"
+                >
+                  ✅
+                </div>
+                <div>
+                  <span class="text-2xl font-bold text-cyan-400">6</span>
+                  <h3 class="text-2xl font-bold text-white">Entrega</h3>
+                </div>
+              </div>
+              <p class="text-gray-300 text-lg leading-relaxed">
+                Garantizar que los entregables cumplen con lo esperado
+              </p>
+            </div>
+          </div>
+
+          <!-- Dominio 7 -->
+          <div class="fade-in-up">
+            <div
+              class="bg-gradient-to-br from-gray-900/80 to-gray-800/60 p-8 rounded-3xl border border-gray-600/30 backdrop-blur-sm hover:border-cyan-500/50 transition-all duration-500"
+            >
+              <div class="flex items-center mb-6">
+                <div
+                  class="w-16 h-16 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-2xl flex items-center justify-center text-2xl mr-4"
+                >
+                  📈
+                </div>
+                <div>
+                  <span class="text-2xl font-bold text-cyan-400">7</span>
+                  <h3 class="text-2xl font-bold text-white">Medición</h3>
+                </div>
+              </div>
+              <p class="text-gray-300 text-lg leading-relaxed">
+                Seguimiento con KPIs e indicadores de valor
+              </p>
+            </div>
+          </div>
+
+          <!-- Dominio 8 -->
+          <div class="fade-in-up">
+            <div
+              class="bg-gradient-to-br from-gray-900/80 to-gray-800/60 p-8 rounded-3xl border border-gray-600/30 backdrop-blur-sm hover:border-cyan-500/50 transition-all duration-500"
+            >
+              <div class="flex items-center mb-6">
+                <div
+                  class="w-16 h-16 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-2xl flex items-center justify-center text-2xl mr-4"
+                >
+                  ⚠️
+                </div>
+                <div>
+                  <span class="text-2xl font-bold text-cyan-400">8</span>
+                  <h3 class="text-2xl font-bold text-white">Incertidumbre</h3>
+                </div>
+              </div>
+              <p class="text-gray-300 text-lg leading-relaxed">
+                Gestión de riesgos, cambios y situaciones inesperadas
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección de Ejemplo Práctico -->
+    <section
+      id="example"
+      class="py-20 bg-gradient-to-b from-gray-900/50 to-black"
+    >
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16 fade-in-up">
+          <h2
+            class="text-4xl sm:text-5xl font-bold mb-6 bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent"
+          >
+            Caso Práctico
+          </h2>
+          <p class="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">
+            Aplicación en un proyecto digital real
+          </p>
+        </div>
+
+        <div
+          class="bg-gradient-to-br from-orange-900/20 to-red-900/20 p-8 md:p-12 rounded-3xl border border-orange-500/30 backdrop-blur-sm fade-in-up"
+        >
+          <h3
+            class="text-3xl md:text-4xl font-bold text-orange-400 mb-8 text-center"
+          >
+            Implementación de Tienda Online para Café Local
+          </h3>
+
+          <div class="grid md:grid-cols-2 gap-8 mb-12">
+            <div>
+              <h4
+                class="text-xl md:text-2xl font-bold text-white mb-6 flex items-center"
+              >
+                <div class="w-3 h-3 bg-orange-400 rounded-full mr-3"></div>
+                Objetivos Clave
+              </h4>
+              <ul class="space-y-4">
+                <li class="flex items-start space-x-3">
+                  <div
+                    class="w-2 h-2 bg-orange-400 rounded-full mt-3 flex-shrink-0"
+                  ></div>
+                  <span class="text-gray-300 md:text-lg"
+                    >Aumentar ventas directas en un 35%</span
+                  >
+                </li>
+                <li class="flex items-start space-x-3">
+                  <div
+                    class="w-2 h-2 bg-orange-400 rounded-full mt-3 flex-shrink-0"
+                  ></div>
+                  <span class="text-gray-300 md:text-lg"
+                    >Reducir dependencia de apps de delivery</span
+                  >
+                </li>
+                <li class="flex items-start space-x-3">
+                  <div
+                    class="w-2 h-2 bg-orange-400 rounded-full mt-3 flex-shrink-0"
+                  ></div>
+                  <span class="text-gray-300 md:text-lg"
+                    >Crear experiencia de marca consistente</span
+                  >
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h4
+                class="text-xl md:text-2xl font-bold text-white mb-6 flex items-center"
+              >
+                <div class="w-3 h-3 bg-cyan-400 rounded-full mr-3"></div>
+                Aplicaciones del PMBOK 7ª
+              </h4>
+              <div class="space-y-6">
+                <div
+                  class="bg-black/50 p-4 rounded-xl border border-cyan-500/20"
+                >
+                  <div class="flex items-center mb-2">
+                    <span
+                      class="bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold mr-3"
+                    >
+                      Principio 4
+                    </span>
+                    <span class="text-cyan-400 font-medium"
+                      >Enfocarse en el valor</span
+                    >
+                  </div>
+                  <p class="text-gray-300 text-sm leading-relaxed">
+                    El objetivo no es solo tener un sitio web, sino aumentar
+                    ventas directas
+                  </p>
+                </div>
+                <div
+                  class="bg-black/50 p-4 rounded-xl border border-cyan-500/20"
+                >
+                  <div class="flex items-center mb-2">
+                    <span
+                      class="bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold mr-3"
+                    >
+                      Dominio 5
+                    </span>
+                    <span class="text-cyan-400 font-medium"
+                      >Trabajo del proyecto</span
+                    >
+                  </div>
+                  <p class="text-gray-300 text-sm leading-relaxed">
+                    Uso de Trello y GitHub para coordinar diseño y desarrollo
+                  </p>
+                </div>
+                <div
+                  class="bg-black/50 p-4 rounded-xl border border-cyan-500/20"
+                >
+                  <div class="flex items-center mb-2">
+                    <span
+                      class="bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold mr-3"
+                    >
+                      Dominio 8
+                    </span>
+                    <span class="text-cyan-400 font-medium">Incertidumbre</span>
+                  </div>
+                  <p class="text-gray-300 text-sm leading-relaxed">
+                    Plan B con PayPal si la pasarela Stripe falla
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-center">
+            <div
+              class="inline-flex items-center space-x-2 bg-gradient-to-r from-cyan-500/20 to-blue-600/20 px-6 py-3 rounded-full border border-cyan-500/30"
+            >
+              <div
+                class="w-2 h-2 bg-cyan-400 rounded-full animate-pulse-slow"
+              ></div>
+              <span class="text-cyan-400 font-semibold"
+                >¡El enfoque es más importante que el proceso!</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección de Ventajas -->
+    <section
+      id="advantages"
+      class="py-20 bg-gradient-to-b from-black to-gray-900/50"
+    >
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16 fade-in-up">
+          <h2
+            class="text-4xl sm:text-5xl font-bold mb-6 bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent"
+          >
+            Ventajas para Junior PMs
+          </h2>
+          <p class="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">
+            Por qué el PMBOK 7ª es tu mejor aliado como Project Manager junior
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+          <!-- Ventaja 1 -->
+          <div class="fade-in-up">
+            <div
+              class="bg-gradient-to-br from-gray-900/80 to-gray-800/60 p-8 rounded-3xl border border-green-500/30 backdrop-blur-sm text-center hover:border-green-500/60 transition-all duration-500 hover:transform hover:scale-105"
+            >
+              <div class="text-6xl mb-6">🌍</div>
+              <h3 class="text-2xl font-bold text-green-400 mb-4">
+                Estándar Internacional
+              </h3>
+              <p class="text-gray-300 leading-relaxed">
+                Demuestra que manejas un marco reconocido globalmente,
+                independientemente de tu nivel de experiencia
+              </p>
+            </div>
+          </div>
+
+          <!-- Ventaja 2 -->
+          <div class="fade-in-up">
+            <div
+              class="bg-gradient-to-br from-gray-900/80 to-gray-800/60 p-8 rounded-3xl border border-green-500/30 backdrop-blur-sm text-center hover:border-green-500/60 transition-all duration-500 hover:transform hover:scale-105"
+            >
+              <div class="text-6xl mb-6">🎯</div>
+              <h3 class="text-2xl font-bold text-green-400 mb-4">
+                Justificación de Decisiones
+              </h3>
+              <p class="text-gray-300 leading-relaxed">
+                Puedes fundamentar tus decisiones de planificación, ejecución y
+                control con un marco sólido y reconocido
+              </p>
+            </div>
+          </div>
+
+          <!-- Ventaja 3 -->
+          <div class="fade-in-up">
+            <div
+              class="bg-gradient-to-br from-gray-900/80 to-gray-800/60 p-8 rounded-3xl border border-green-500/30 backdrop-blur-sm text-center hover:border-green-500/60 transition-all duration-500 hover:transform hover:scale-105"
+            >
+              <div class="text-6xl mb-6">💡</div>
+              <h3 class="text-2xl font-bold text-green-400 mb-4">
+                Flexibilidad Creativa
+              </h3>
+              <p class="text-gray-300 leading-relaxed">
+                Compatible con tu esencia digital y creatividad, porque no te
+                encierra en procesos rígidos
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center mt-16 fade-in-up">
+          <div
+            class="bg-gradient-to-r from-cyan-500/20 to-purple-600/20 p-8 rounded-3xl border border-cyan-500/30 backdrop-blur-sm max-w-4xl mx-auto"
+          >
+            <h3
+              class="text-3xl font-bold mb-4 bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent"
+            >
+              El futuro de la gestión de proyectos
+            </h3>
+            <p class="text-xl text-gray-300 leading-relaxed">
+              El PMBOK 7ª no es solo un manual, es una
+              <strong class="text-cyan-400">mentalidad</strong> que combina
+              principios éticos, enfoque en valor y adaptabilidad para enfrentar
+              los desafíos del entorno digital actual.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pie de página -->
+    <footer class="py-12 bg-black border-t border-gray-800">
+      <div class="max-w-7xl mx-auto px-6 text-center">
+        <div class="flex items-center justify-center space-x-2 mb-4">
+          <div
+            class="w-3 h-3 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full animate-pulse-slow"
+          ></div>
+          <span
+            class="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent"
+          >
+            PMBOK 7<sup>ª</sup> Guía Rápida
+          </span>
+        </div>
+        <p class="text-gray-400">
+          © 2024 Guía Interactiva de PMBOK 7ª Edición | Diseñado para Project
+          Managers del futuro
+        </p>
+      </div>
+    </footer>
+
+    <!-- Botón para volver arriba -->
+    <a
+      href="#home"
+      class="fixed bottom-8 right-8 bg-gradient-to-r from-cyan-500 to-blue-600 w-14 h-14 rounded-full flex items-center justify-center shadow-lg shadow-cyan-500/30 z-40 transform transition-transform hover:scale-110"
+    >
+      <i class="fas fa-arrow-up text-white"></i>
+    </a>
+
+    <script>
+      // Animaciones al hacer scroll
+      document.addEventListener("DOMContentLoaded", function () {
+        // Observador para animaciones
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("active");
+              }
+            });
+          },
+          { threshold: 0.1 }
+        );
+
+        document.querySelectorAll(".fade-in-up").forEach((el) => {
+          observer.observe(el);
+        });
+
+        // Actualizar posición del fondo radial
+        const radialBg = document.querySelector(".gradient-radial");
+        window.addEventListener("scroll", () => {
+          const scrollY = window.scrollY;
+          radialBg.style.background = `radial-gradient(circle at ${
+            scrollY * 0.1
+          }px ${scrollY * 0.1}px, #06b6d4, transparent 50%)`;
+        });
+
+        // Resaltar enlace activo en el menú
+        const navLinks = document.querySelectorAll("nav a");
+        const sections = document.querySelectorAll("section");
+
+        window.addEventListener("scroll", () => {
+          let current = "";
+
+          sections.forEach((section) => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+
+            if (pageYOffset >= sectionTop - sectionHeight / 3) {
+              current = section.getAttribute("id");
+            }
+          });
+
+          navLinks.forEach((link) => {
+            link.classList.remove("text-cyan-400");
+            link.classList.add("text-gray-300");
+
+            if (link.getAttribute("href") === `#${current}`) {
+              link.classList.remove("text-gray-300");
+              link.classList.add("text-cyan-400");
+            }
+          });
+        });
+
+        // Funcionalidad del menú móvil
+        const mobileMenuButton = document.getElementById("mobile-menu-button");
+        const mobileMenu = document.getElementById("mobile-menu");
+        const hamburger = document.querySelector(".hamburger");
+
+        if (mobileMenuButton && mobileMenu && hamburger) {
+          mobileMenuButton.addEventListener("click", function (e) {
+            e.stopPropagation();
+            mobileMenu.classList.toggle("open");
+            hamburger.classList.toggle("open");
+
+            // Bloquear scroll cuando el menú está abierto
+            if (mobileMenu.classList.contains("open")) {
+              document.body.style.overflow = "hidden";
+            } else {
+              document.body.style.overflow = "auto";
+            }
+          });
+
+          // Cerrar menú al hacer clic en un enlace
+          mobileMenu.querySelectorAll("a").forEach((link) => {
+            link.addEventListener("click", function () {
+              mobileMenu.classList.remove("open");
+              hamburger.classList.remove("open");
+              document.body.style.overflow = "auto";
+            });
+          });
+
+          // Cerrar menú al hacer clic fuera de él
+          document.addEventListener("click", function (event) {
+            if (
+              mobileMenu.classList.contains("open") &&
+              !mobileMenu.contains(event.target) &&
+              !mobileMenuButton.contains(event.target)
+            ) {
+              mobileMenu.classList.remove("open");
+              hamburger.classList.remove("open");
+              document.body.style.overflow = "auto";
+            }
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
